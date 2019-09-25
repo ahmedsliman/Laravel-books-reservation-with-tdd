@@ -12,6 +12,7 @@
 */
 
 Route::post('/books', 'BooksController@store');
+Route::patch('/books/{book}', 'BooksController@update');
 
 Route::get('/', function () {
     return view('welcome');
