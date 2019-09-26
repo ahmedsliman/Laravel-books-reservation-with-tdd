@@ -13,6 +13,7 @@
 
 Route::post('/books', 'BooksController@store');
 Route::patch('/books/{book}', 'BooksController@update');
+Route::delete('/books/{book}', 'BooksController@destroy');
 
 Route::get('/', function () {
     return view('welcome');
