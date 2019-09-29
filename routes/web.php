@@ -17,6 +17,12 @@ Route::delete('/books/{book}', 'BooksController@destroy');
 
 Route::post('/authors', 'AuthorsController@store');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('/checkout/{book}', 'CheckoutBookController@store');
+Route::post('/checkin/{book}', 'CheckinBookController@store');
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
