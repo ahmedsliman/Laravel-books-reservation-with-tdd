@@ -15,7 +15,7 @@ class AuthorManagementTest extends TestCase
     /** @test */
     public function an_author_can_be_created()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         $response = $this->post('/authors', [
             'name' => 'An Author Name',
@@ -85,7 +85,7 @@ class AuthorManagementTest extends TestCase
      */
     public function an_author_can_be_deleted()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         $this->post('/authors', [
             'title' => 'Cool Title',

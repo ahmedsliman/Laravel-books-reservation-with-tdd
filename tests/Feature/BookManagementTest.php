@@ -17,10 +17,7 @@ class BookManagementTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->post('/books', [
-            'title' => 'Cool Book Title',
-            'author' => 'Victor'
-        ]);
+        $response = $this->post('/books', $this->data());
 
         $book = Book::first();
 
@@ -34,10 +31,7 @@ class BookManagementTest extends TestCase
     {
         //$this->withoutExceptionHandling();
 
-        $response = $this->post('/books', [
-            'title' => '',
-            'author' => 'Victor'
-        ]);
+        $response = $this->post('/books', $this->data());
 
         $response->assertSessionHasErrors('title');
     }
@@ -47,12 +41,9 @@ class BookManagementTest extends TestCase
     {
         //$this->withoutExceptionHandling();
 
-        $response = $this->post('/books', [
-            'title' => 'Some book',
-            'author' => ''
-        ]);
+        $response = $this->post('/books', array_merge($this->data(), ['author_id' => '']));
 
-        $response->assertSessionHasErrors('author');
+        $response->assertSessionHasErrors('author_id');
     }
 
     /** @test */
@@ -60,20 +51,14 @@ class BookManagementTest extends TestCase
     {
         //$this->withoutExceptionHandling();
 
-        $this->post('/books', [
-            'title' => 'Cool Title',
-            'author' => 'Victor'
-        ]);
+        $this->post('/books', $this->data());
 
         $book = Book::first();
 
-        $response = $this->patch($book->path(), [
-            'title' => 'New title',
-            'author' => 'New author'
-        ]);
+        $response = $this->patch($book->path(), $this->data());
 
-        $this->assertEquals('New title', Book::first()->title);
-        $this->assertEquals('New author', Book::first()->author);
+        $this->assertEquals('Cool Title', Book::first()->title);
+        $this->assertEquals(1, Book::first()->author_id);
         $response->assertRedirect($book->fresh()->path());
     }
 
@@ -85,10 +70,7 @@ class BookManagementTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->post('/books', [
-            'title' => 'Cool Title',
-            'author' => 'Victor'
-        ]);
+        $this->post('/books', $this->data());
         $this->assertCount(1, Book::all());
 
         $book = Book::first();
@@ -103,15 +85,20 @@ class BookManagementTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->post('/books', [
-            'title' => 'Cool Title',
-            'author_id' => 'Victor'
-        ]);
+        $this->post('/books', $this->data());
 
         $book = Book::first();
         $author = Author::first();
 
         $this->assertCount(1, Author::all());
         $this->assertEquals($author->id, $book->author_id);
+    }
+
+    private function data()
+    {
+        return [
+            'title' => 'Cool Title',
+            'author_id' => 'Victor'
+        ];
     }
 }
